@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>
+        registration
+    </title>
+    <style>
+        table,
+        th,
+        td {
+            border: 2px solid green;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" name="first name" id="first name">
+    <input type="text" name="last name" id="last name">
+    <input type="text" name="age" id="age">
+    <button type="button" onclick="Add(-1)" id="MyBTN"> 
+        registor
+    </button>
+    <hr>
+    <br>
+    <table id="My table">
+        <thead>
+            <tr>
+                <th>
+                    row
+                </th>
+                <th>
+                    name
+                </th>
+                <th>
+                    last name
+                </th>
+                <th>
+                    age
+                </th>
+                <th>
+                    activities
+                </th>
+            </tr>
+        <tbody id="tbody">
+        </tbody>
+        </thead>
+    </table>
+    <script>
+        // it should keep the members
+        var $array = [];
+        // function for adding or aditing
+        function Add($index) {
+            document.getElementById("firstname").value;
+            document.getElementById("lastname").value;
+            document.getElementById("age").value;
+            if ($fname.trim() == "" || $lastname.trim() == "" || $age.trim() == "") {
+                alert("enter all of entries")
+            }
+            else {
+                var $person = [$firstname, $lastname, $age];
+                if ($index == -1) {
+                    $array.push($person);
+                }
+                else {
+                    $array[$index][0] = $firstname;
+                    $array[$index][1] = $lastname;
+                    $array[$index][2] = $age;
+                    document.getElementById("MyBTN").innerHTML = "reg";
+                }
+                EmptyInputs();
+                Read();
+            }
+            // after edit or delet the input will be empting
+            function EmptyInputs() {
+                document.getElementById("firstname").value = "";
+                document.getElementById("lastname").value = "";
+                document.getElementById("age").value = "";
+
+            }
+            // it will print the members
+            function Read() {
+                var $result = "";
+
+
+                for (let i = 0; i < $array.length; i++) {
+                    var $person = $array[i];
+                    $result = $result + "<tr><td>" + (i + 1) + "</td><td>" + $person[0] +
+                        "</td><td>" + $person[1] + "</td><td>" + $person[2] +
+                        "</td><td><button type='button' onclick='Edit(" + i +
+                        ")'>edit</button><button type='button' onclick='Delete(" + i +
+                        ")'>delet</button></td></tr>"
+                }
+
+                document.getElementById("tBody").innerHTML = $result;
+            }
+            // it will ready the input fo editing
+
+            function Edit($index) {
+                var $person = $array[$index];
+                document.getElementById("firstname").value = $person[0];
+                document.getElementById("lastname").value = $person[1];
+                document.getElementById("age").value = $person[2];
+
+                document.getElementById("MyBTN").innerHTML = "edit";
+                document.getElementById("MyBTN").setAttribute("onclick", "javascript: Add(" + $index + ");")
+
+
+            }
+            // it will manange the delete activities
+
+            function Delete($index) {
+                $array.splice($index, 1);
+                Read();
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>
