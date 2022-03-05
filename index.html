@@ -1,0 +1,1541 @@
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Star Wars</title>
+        <style>
+			body
+			{
+				background-color: black
+			}
+			
+			.fg
+			{
+				position:absolute;
+				left: 50ppx;
+				top: 30px;
+				width:1000;
+				height:900;
+				cursor:crosshair;
+			}
+		</style>
+	</head>
+	
+	<body onLoad = "doc_load()" onkeydown = "upd_key(event)">
+    	
+    	<script type="text/javascript">
+		
+		//=================================== Global Constants
+	    var PAGE_OSX = 100;
+	    var PAGE_OSY = 100;
+		
+		var MAX_S1 = 2;
+		var MAX_S2 = 20;
+		var MAX_S3 = 5;
+		
+		var MAX_E1 = 5;
+		var MAX_E2 = 5;
+		var MAX_E3 = 5;
+		var MAX_E4 = 5;
+		var MAX_E5 = 5;
+		
+		var MAX_F1 = 20;
+		var MAX_F2 = 10;
+		var MAX_F3 = 20;
+		var MAX_F4 = 30;
+		
+		var MAX_MINIEXP = 20;
+		var MAX_EXP1 = 5;
+		var MAX_EXP2 = 5;
+	    
+        //=================================== Global Variables
+        var i;
+        var score = 0;
+		var fire_mod = 1;
+		var m_x = 280 + PAGE_OSX + 25;
+		var m_y = 400 + PAGE_OSY + 21;
+       	
+        //=================================== Loading Elements
+		var t_loader = new Text("Loading...",20,"blue");
+		t_loader.set_vis(1);
+		t_loader.move(260,190);
+		
+		var loader = new Sprite0("pics/loader.gif");
+		loader.set_vis(1);
+		loader.move(280,220);
+		
+		var star1 = new Array();
+		for(i = 1;i <= MAX_S1;i++){
+			star1[i] = new Sprite0("pics/star1.png");
+		}
+		
+		var star2 = new Array();
+		for(i = 1;i <= MAX_S2;i++){
+			star2[i] = new Sprite0("pics/star2.png");
+		}
+		
+		var star3 = new Array();
+		for(i = 1;i <= MAX_S3;i++){
+			star3[i] = new Sprite0("pics/star3.png");
+		}
+		
+		//********************
+		//********************
+		//********************
+		
+		var fire1 = new Array();
+		for(i = 1;i <= MAX_F1;i++){
+			fire1[i] = new Sprite1("pics/fire1.png");
+		}
+		
+		var fire2 = new Array();
+		for(i = 1;i <= MAX_F2;i++){
+			fire2[i] = new Sprite1("pics/fire1.png");
+		}
+		
+		var fire3 = new Array();
+		for(i = 1;i <= MAX_F3;i++){
+			fire3[i] = new Sprite1("pics/fire1.png");
+		}
+		
+		var fire4 = new Array();
+		for(i = 1;i <= MAX_F4;i++){
+			fire4[i] = new Sprite1("pics/fire2.png");
+		}
+		
+		//********************
+		//********************
+		//********************
+		
+		var en1 = new Array();
+		for(i = 1;i <= MAX_E1;i++){
+			en1[i] = new Sprite2("pics/en1.png");
+		}
+		
+		var en2 = new Array();
+		for(i = 1;i <= MAX_E2;i++){
+			en2[i] = new Sprite2("pics/en2.png");
+		}
+		
+		var en3 = new Array();
+		for(i = 1;i <= MAX_E3;i++){
+			en3[i] = new Sprite2("pics/en3.png");
+		}
+		
+		var en4 = new Array();
+		for(i = 1;i <= MAX_E4;i++){
+			en4[i] = new Sprite2("pics/en4.png");
+		}
+		
+		var en5 = new Array();
+		for(i = 1;i <= MAX_E5;i++){
+			en5[i] = new Sprite2("pics/en5.png");
+		}
+		
+		//********************
+		//********************
+		//********************
+		
+		var b_health = new Sprite1("pics/health.png");
+		
+		var b_f2 = new Sprite1("pics/f2.png");
+		
+		var b_f3 = new Sprite1("pics/f3.png");
+		
+		//********************
+		//********************
+		//********************
+		
+		var player = new Sprite2("pics/player.png");
+		
+		//********************
+		//********************
+		//********************
+		
+		var mini_exp = new Array();
+		for(i = 1;i <= MAX_MINIEXP;i++){
+			mini_exp[i] = new Sprite1("pics/mini_exp/mexp_1.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_2.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_3.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_4.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_5.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_6.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_7.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_8.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_9.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_10.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_11.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_12.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_13.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_14.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_15.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_16.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_17.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_18.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_19.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_20.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_21.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_22.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_23.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_24.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_25.png");
+			mini_exp[i].add_img("pics/mini_exp/mexp_26.png");
+		}
+		
+		var exp1 = new Array();
+		for(i = 1;i <= MAX_EXP1;i++){
+			exp1[i] = new Sprite1("pics/exp1/exp1_1.png");
+			exp1[i].add_img("pics/exp1/exp1_2.png");
+			exp1[i].add_img("pics/exp1/exp1_3.png");
+			exp1[i].add_img("pics/exp1/exp1_4.png");
+			exp1[i].add_img("pics/exp1/exp1_5.png");
+			exp1[i].add_img("pics/exp1/exp1_6.png");
+			exp1[i].add_img("pics/exp1/exp1_7.png");
+			exp1[i].add_img("pics/exp1/exp1_8.png");
+			exp1[i].add_img("pics/exp1/exp1_9.png");
+			exp1[i].add_img("pics/exp1/exp1_10.png");
+			exp1[i].add_img("pics/exp1/exp1_11.png");
+			exp1[i].add_img("pics/exp1/exp1_12.png");
+			exp1[i].add_img("pics/exp1/exp1_13.png");
+			exp1[i].add_img("pics/exp1/exp1_14.png");
+			exp1[i].add_img("pics/exp1/exp1_15.png");
+			exp1[i].add_img("pics/exp1/exp1_16.png");
+			exp1[i].add_img("pics/exp1/exp1_17.png");
+			exp1[i].add_img("pics/exp1/exp1_18.png");
+			exp1[i].add_img("pics/exp1/exp1_19.png");
+			exp1[i].add_img("pics/exp1/exp1_20.png");
+			exp1[i].add_img("pics/exp1/exp1_21.png");
+			exp1[i].add_img("pics/exp1/exp1_22.png");
+			exp1[i].add_img("pics/exp1/exp1_23.png");
+			exp1[i].add_img("pics/exp1/exp1_24.png");
+			exp1[i].add_img("pics/exp1/exp1_25.png");
+			exp1[i].add_img("pics/exp1/exp1_26.png");
+		}
+		
+		var exp2 = new Array();
+		for(i = 1;i <= MAX_EXP2;i++){
+			exp2[i] = new Sprite1("pics/exp2/exp2_1.png");
+			exp2[i].add_img("pics/exp2/exp2_2.png");
+			exp2[i].add_img("pics/exp2/exp2_3.png");
+			exp2[i].add_img("pics/exp2/exp2_4.png");
+			exp2[i].add_img("pics/exp2/exp2_5.png");
+			exp2[i].add_img("pics/exp2/exp2_6.png");
+			exp2[i].add_img("pics/exp2/exp2_7.png");
+			exp2[i].add_img("pics/exp2/exp2_8.png");
+			exp2[i].add_img("pics/exp2/exp2_9.png");
+			exp2[i].add_img("pics/exp2/exp2_10.png");
+			exp2[i].add_img("pics/exp2/exp2_11.png");
+			exp2[i].add_img("pics/exp2/exp2_12.png");
+			exp2[i].add_img("pics/exp2/exp2_13.png");
+			exp2[i].add_img("pics/exp2/exp2_14.png");
+			exp2[i].add_img("pics/exp2/exp2_15.png");
+			exp2[i].add_img("pics/exp2/exp2_16.png");
+			exp2[i].add_img("pics/exp2/exp2_17.png");
+			exp2[i].add_img("pics/exp2/exp2_18.png");
+			exp2[i].add_img("pics/exp2/exp2_19.png");
+			exp2[i].add_img("pics/exp2/exp2_20.png");
+			exp2[i].add_img("pics/exp2/exp2_21.png");
+			exp2[i].add_img("pics/exp2/exp2_22.png");
+			exp2[i].add_img("pics/exp2/exp2_23.png");
+			exp2[i].add_img("pics/exp2/exp2_24.png");
+			exp2[i].add_img("pics/exp2/exp2_25.png");
+			exp2[i].add_img("pics/exp2/exp2_26.png");
+			exp2[i].add_img("pics/exp2/exp2_27.png");
+			exp2[i].add_img("pics/exp2/exp2_28.png");
+			exp2[i].add_img("pics/exp2/exp2_29.png");
+			exp2[i].add_img("pics/exp2/exp2_30.png");
+		}
+		
+		//********************
+		//********************
+		//********************
+		
+		var h_b1 = new Sprite0("pics/h_border.png");
+		var h_b2 = new Sprite0("pics/h_border.png");
+		var v_b1 = new Sprite0("pics/v_border.png");
+		var v_b2 = new Sprite0("pics/v_border.png");
+		var out_b = new Sprite0("pics/out_border.png");
+		
+		var bar2 = new Sprite0("pics/bar2.png");
+		var bar1 = new Sprite0("pics/bar1.png");
+		
+		//********************
+		//********************
+		//********************
+		
+		var t_score = new Text("Score : 0",20,"red");
+		var t_gameover = new Text("Game Over",50,"red");
+		var t_finalscore = new Text("Score",20,"red");
+		var t_playagain = new Text("Press Enter to play again",20,"red");
+		
+		//=================================== Function move_obj
+        function move_obj(obj,x,y){
+        	if(obj.style.fontSize){
+        		if(navigator.appName == "Netscape"){
+        			y = y - parseInt(obj.style.fontSize);
+        		}
+        	}
+            obj.style.left = x + PAGE_OSX + "px";
+            obj.style.top = y + PAGE_OSY + "px";
+        }
+        
+        //=================================== Function set_vis
+        function set_vis(obj,v){
+            if(v == 0){
+            	obj.style.visibility = "hidden";
+            }
+            else{
+            	obj.style.visibility = "visible";
+            }
+        }
+        
+        //=================================== Function create_img
+        function create_img(img,img_src){
+            img.setAttribute("src", img_src);
+            img.style.position = "absolute";
+            img.style.visibility = "hidden";
+            document.body.appendChild(img);
+        }
+        
+        //=================================== Function col_check
+        function col_check(sp1,sp2,offset,n_step){
+		
+			if(sp1.is_exist == 0 || sp2.is_exist == 0)return 0;
+        	
+        	var col = 0;
+        	
+        	var x1 = sp1.x;
+        	var y1 = sp1.y;
+        	var w1 = sp1.width;
+        	var h1 = sp1.height;
+        	
+        	var x2 = sp2.x;
+        	var y2 = sp2.y;
+        	var w2 = sp2.width;
+        	var h2 = sp2.height;
+        	
+        	if(n_step == 1){
+        		x1 += sp1.speed_x;
+        		y1 += sp1.speed_y;
+        		x2 += sp2.speed_x;
+        		y2 += sp2.speed_y;
+        	}
+        	
+        	if(offset != 0){
+        		x1 -= offset;
+        		y1 -= offset;
+        		w1 += offset;
+        		h1 += offset;
+        	}
+        	if(x1 + w1 > x2){
+        		if(x1 < x2 + w2){
+        			if(y1 + h1 > y2){
+                		if(y1 < y2 + h2){
+                			col = 1;
+                    	}
+                	}
+            	}
+        	}
+        	return col;
+        }
+		
+		//=================================== Object Sprite0
+        function Sprite0(img_src){
+            
+            this.x = 0;
+            this.y = 0;
+            this.width = 0;
+            this.height = 0;
+			
+            this.img = new Image();
+            
+            this.move = function(x,y){
+            	this.x = x;
+            	this.y = y;
+            	move_obj(this.img,this.x,this.y);
+            };
+            
+            this.set_vis = function(n){
+            	set_vis(this.img,n)
+            };
+            
+        	create_img(this.img,img_src);
+			
+        }
+		
+		//=================================== Object Sprite1
+        function Sprite1(img_src){
+            
+            this.x = 0;
+            this.y = 0;
+            this.width = 0;
+            this.height = 0;
+            this.speed_x = 0;
+            this.speed_y = 0;
+			this.is_exist = 0;
+			
+            this.img_c = 0;
+            this.img_no = 0;
+            this.img = new Array();
+            
+            this.add_img = function(img_src){
+            	this.img_c++;
+            	this.img[this.img_c] = new Image();
+            	create_img(this.img[this.img_c],img_src);
+            };
+            
+            this.move = function(x,y){
+            	this.x = x;
+            	this.y = y;
+            	move_obj(this.img[this.img_no],this.x,this.y);
+            };
+            
+            this.step = function(){
+                this.x += this.speed_x;
+                this.y += this.speed_y;
+                move_obj(this.img[this.img_no],this.x,this.y);
+            };
+            
+            this.set_vis = function(n){
+            	var i = 0;
+            	for(i = 1;i <= this.img_c;i++){
+            		set_vis(this.img[i],0);
+            	}
+            	if(n != 0){set_vis(this.img[n],1);}
+            	this.img_no = n;
+            };
+			
+			this.create = function(x,y){
+				this.set_vis(1);
+				this.move(x,y);
+				this.is_exist = 1;
+			};
+			
+			this.destroy = function(){
+				var i = 0;
+            	for(i = 1;i <= this.img_c;i++){
+            		set_vis(this.img[i],0);
+            	}
+				this.is_exist = 0;
+				this.speed_x = 0;
+				this.speed_y = 0;
+			};
+            
+            this.img_c++;
+        	this.img[this.img_c] = new Image();
+        	create_img(this.img[this.img_c],img_src);
+            
+        }
+		//=================================== Object Sprite2
+        function Sprite2(img_src){
+            
+            this.x = 0;
+            this.y = 0;
+            this.width = 0;
+            this.height = 0;
+            this.speed_x = 0;
+            this.speed_y = 0;
+			this.is_exist = 0;
+			this.health = 0;
+			this.max_health = 0;
+			
+            this.img_c = 0;
+            this.img_no = 0;
+            this.img = new Array();
+            
+            this.add_img = function(img_src){
+            	this.img_c++;
+            	this.img[this.img_c] = new Image();
+            	create_img(this.img[this.img_c],img_src);
+            };
+            
+            this.move = function(x,y){
+            	this.x = x;
+            	this.y = y;
+            	move_obj(this.img[this.img_no],this.x,this.y);
+            };
+            
+            this.step = function(){
+				if(this.health < 0)this.destroy();
+                this.x += this.speed_x;
+                this.y += this.speed_y;
+                move_obj(this.img[this.img_no],this.x,this.y);
+            };
+            
+            this.set_vis = function(n){
+            	var i = 0;
+            	for(i = 1;i <= this.img_c;i++){
+            		set_vis(this.img[i],0);
+            	}
+            	if(n != 0){set_vis(this.img[n],1);}
+            	this.img_no = n;
+            };
+			
+			this.create = function(x,y){
+				this.set_vis(1);
+				this.move(x,y);
+				this.is_exist = 1;
+				this.health = this.max_health;
+			};
+			
+			this.destroy = function(){
+				var i = 0;
+            	for(i = 1;i <= this.img_c;i++){
+            		set_vis(this.img[i],0);
+            	}
+				this.is_exist = 0;
+				this.speed_x = 0;
+				this.speed_y = 0;
+			};
+            
+            this.img_c++;
+        	this.img[this.img_c] = new Image();
+        	create_img(this.img[this.img_c],img_src);
+            
+        }
+        
+        //=================================== Object Text
+        function Text(t_text,t_size,t_color){
+        	
+        	this.t = document.createElement("p");
+            this.t.innerHTML = t_text;
+            this.t.style.fontSize = t_size + "px";
+            this.t.style.color = t_color;
+            this.t.style.position = "absolute";
+            this.t.style.visibility = "hidden";
+            this.t.style.fontWeight = "bold";
+            
+            this.set_text = function(txt){
+            	this.t.innerHTML = txt;
+            };
+            
+            this.move = function(x,y){
+            	move_obj(this.t,x,y);
+            };
+            
+            this.set_vis = function(v){
+            	set_vis(this.t,v);
+            };
+            
+            document.body.appendChild(this.t);
+        	
+        }
+		
+		//=================================== Function upd_key
+        function upd_key(e){
+            var keynum = 0;
+            if(window.event){keynum = e.keyCode;}
+            else if(e.which){keynum = e.which;}
+            if(keynum == 13 && player.is_exist == 0)ini();
+        }
+        
+		//=================================== Function upd_m
+		function upd_m(e){
+			if(navigator.appName == "Netscape"){
+				m_x = e.pageX;
+				m_y = e.pageY;
+			}
+			else{
+				m_x = event.clientX + document.body.scrollLeft;
+				m_y = event.clientY + document.body.scrollTop;
+			}
+		}
+		
+		//=================================== Function mouse_d
+		function mouse_d(e){
+			if(player.is_exist)fire1_act(1);
+		}
+		
+        //=================================== Function doc_load
+		function doc_load(){
+			
+			var i;
+			
+			loader.set_vis(0);
+			t_loader.set_vis(0);
+			
+			out_b.set_vis(1);
+			out_b.move(-100,-100);
+			
+			h_b1.set_vis(1);
+			h_b1.move(0,0);
+			
+			h_b2.set_vis(1);
+			h_b2.move(0,490);
+			
+			v_b1.set_vis(1);
+			v_b1.move(0,0);
+			
+			v_b2.set_vis(1);
+			v_b2.move(590,0);
+			
+			bar1.set_vis(1);
+			bar1.move(355,-25);
+			
+			bar2.set_vis(1);
+			bar2.move(470,-25);
+			
+			//********************
+			//********************
+			//********************
+			
+			t_score.set_vis(1);
+			t_score.move(10,-30);
+			
+			//********************
+			//********************
+			//********************
+			
+			player.max_health = 107;
+			player.create(280,400);
+			player.width = 80;
+			player.height = 42;
+			
+			//********************
+			//********************
+			//********************
+			
+			for(i = 1;i <= MAX_F1;i++){
+				fire1[i].width = 8;
+				fire1[i].height = 8;
+			}
+			
+			for(i = 1;i <= MAX_F2;i++){
+				fire2[i].width = 8;
+				fire2[i].height = 8;
+			}
+			
+			for(i = 1;i <= MAX_F3;i++){
+				fire3[i].width = 8;
+				fire3[i].height = 8;
+			}
+			
+			for(i = 1;i <= MAX_F4;i++){
+				fire4[i].width = 8;
+				fire4[i].height = 8;
+			}
+			
+			//********************
+			//********************
+			//********************
+			
+			b_health.width = 30;
+			b_health.height = 30;
+			
+			b_f2.width = 30;
+			b_f2.height = 30;
+			
+			b_f3.width = 30;
+			b_f3.height = 30;
+			
+			//********************
+			//********************
+			//********************
+			
+			for(i = 1;i <= MAX_E1;i++){
+				en1[i].width = 40;
+				en1[i].height = 20;
+				en1[i].max_health = 1;
+			}
+			
+			for(i = 1;i <= MAX_E2;i++){
+				en2[i].width = 53;
+				en2[i].height = 30;
+				en2[i].max_health = 2;
+			}
+			
+			for(i = 1;i <= MAX_E3;i++){
+				en3[i].width = 51;
+				en3[i].height = 30;
+				en3[i].max_health = 3;
+			}
+			
+			for(i = 1;i <= MAX_E4;i++){
+				en4[i].width = 67;
+				en4[i].height = 40;
+				en4[i].max_health = 5;
+			}
+			
+			for(i = 1;i <= MAX_E5;i++){
+				en5[i].width = 69;
+				en5[i].height = 40;
+				en5[i].max_health = 5;
+			}
+			
+			//********************
+			//********************
+			//********************
+			
+			backg();
+			step();
+			
+		}
+		
+		//=================================== Function step
+		function step(){
+		
+			en1_act();
+			en2_act();
+			en3_act();
+			en4_act();
+			en5_act();
+			
+			b_health_act();
+			b_f2_act();
+			b_f3_act();
+			
+			fire1_act(0);
+			fire2_act(0,0,0);
+			fire3_act(0,0,0);
+			fire4_act(0,0,0);
+			
+			player_act();
+			
+			mini_exp_act(0,0,0);
+			exp1_act(0,0,0);
+			exp2_act(0,0,0);
+			
+			setTimeout("step()",20);
+			
+		}
+		
+		//=================================== Function ini
+		function ini(){
+		
+			var i;
+			
+			score = 0;
+			m_x = 280 + PAGE_OSX + 25;
+			m_y = 400 + PAGE_OSY + 21;
+			fire_mod = 1;
+			
+			t_gameover.set_vis(0);	
+			t_finalscore.set_vis(0);	
+			t_playagain.set_vis(0);
+			
+			for(i = 1;i <= MAX_E1;i++){
+				en1[i].destroy();
+			}
+			
+			for(i = 1;i <= MAX_E2;i++){
+				en2[i].destroy();
+			}
+			
+			for(i = 1;i <= MAX_E3;i++){
+				en3[i].destroy();
+			}
+			
+			for(i = 1;i <= MAX_E4;i++){
+				en4[i].destroy();
+			}
+			
+			for(i = 1;i <= MAX_E5;i++){
+				en5[i].destroy();
+			}
+			
+			for(i = 1;i <= MAX_F1;i++){
+				fire1[i].destroy();
+			}
+			
+			for(i = 1;i <= MAX_F2;i++){
+				fire2[i].destroy();
+			}
+			
+			for(i = 1;i <= MAX_F3;i++){
+				fire3[i].destroy();
+			}
+			
+			for(i = 1;i <= MAX_F4;i++){
+				fire4[i].destroy();
+			}
+			
+			b_health.destroy();
+			b_f2.destroy();
+			b_f3.destroy();
+			
+			player.create(m_x,m_y);
+			
+		}
+		
+		//=================================== Function en1_act
+		function en1_act(){
+			
+			var i;
+			var rx;
+			
+			for(i = 1;i <= MAX_E1;i++){
+				if(en1[i].is_exist == 0 && Math.random() > 0.995){
+					rx = Math.random()*530+15;
+					en1[i].create(rx,-50);
+					en1[i].speed_y = 1.5;
+				}
+				if(en1[i].is_exist){
+					en1[i].step();
+					
+					if(col_check(player,en1[i],0,0)){
+						en1[i].destroy();
+						exp1_act(1,en1[i].x-5,en1[i].y-15);
+						player.health -= 2;
+						if(player.health < 0){
+							exp2_act(1,player.x,player.y);
+						}
+					}
+					
+					if(en1[i].y > 500){
+						en1[i].destroy();
+					}
+				}
+			}
+		}
+		
+		//=================================== Function en2_act
+		function en2_act(){
+			
+			var i;
+			var rx;
+			
+			for(i = 1;i <= MAX_E2;i++){
+				if(en2[i].is_exist == 0 && Math.random() > 0.995 && score > 500){
+					rx = Math.random()*520+15;
+					en2[i].create(rx,-50);
+					en2[i].speed_y = 2.5;
+				}
+				if(en2[i].is_exist){
+					en2[i].step();
+					
+					if(col_check(player,en2[i],0,0)){
+						en2[i].destroy();
+						exp1_act(1,en2[i].x,en2[i].y-20);
+						player.health -= 5;
+						if(player.health < 0){
+							exp2_act(1,player.x,player.y);
+						}
+					}
+					
+					if(en2[i].y > 500){
+						en2[i].destroy();
+					}
+				}
+			}	
+		}
+		
+		//=================================== Function en3_act
+		function en3_act(){
+			
+			var i;
+			var rx;
+			
+			for(i = 1;i <= MAX_E3;i++){
+				if(en3[i].is_exist == 0 && Math.random() > 0.995 && score > 2000){
+					rx = Math.random()*520+15;
+					en3[i].create(rx,-50);
+					en3[i].speed_y = 1.8;
+				}
+				if(en3[i].is_exist){
+					if(Math.random() > 0.98){
+						fire2_act(1,en3[i].x + 18,en3[i].y + 30);
+					}
+					en3[i].step();
+					
+					if(col_check(player,en3[i],0,0)){
+						en3[i].destroy();
+						exp1_act(1,en3[i].x,en3[i].y-15);
+						player.health -= 10;
+						if(player.health < 0){
+							exp2_act(1,player.x,player.y);
+						}
+					}
+					
+					if(en3[i].y > 500){
+						en3[i].destroy();
+					}
+				}
+				
+			}
+			
+		}
+		
+		//=================================== Function en4_act
+		function en4_act(){
+			
+			var i;
+			var rx;
+			
+			for(i = 1;i <= MAX_E4;i++){
+				if(en4[i].is_exist == 0 && Math.random() > 0.995 && score > 8000){
+					rx = Math.random()*500+15;
+					en4[i].create(rx,-50);
+					en4[i].speed_y = 3;
+				}
+				if(en4[i].is_exist){
+					if(Math.random() > 0.98 && player.y > en4[i].y + 100){
+						fire3_act(1,en4[i].x + 24,en4[i].y + 30);
+					}
+					en4[i].step();
+					
+					if(col_check(player,en4[i],0,0)){
+						en4[i].destroy();
+						exp2_act(1,en4[i].x-5,en4[i].y-20);
+						player.health -= 15;
+						if(player.health < 0){
+							exp2_act(1,player.x,player.y);
+						}
+					}
+					
+					if(en4[i].y > 500){
+						en4[i].destroy();
+					}
+				}
+			}
+			
+		}
+		
+		//=================================== Function en5_act
+		function en5_act(){
+			
+			var i;
+			var rx;
+			
+			for(i = 1;i <= MAX_E5;i++){
+				if(en5[i].is_exist == 0 && Math.random() > 0.995 && score > 30000){
+					rx = Math.random()*500+15;
+					en5[i].create(rx,-50);
+					en5[i].speed_y = 3.5;
+				}
+				if(en5[i].is_exist){
+					if(Math.random() > 0.98 && player.y > en5[i].y + 100){
+						fire4_act(1,en5[i].x + 24,en5[i].y + 30);
+					}
+					en5[i].step();
+					
+					if(col_check(player,en5[i],0,0)){
+						en5[i].destroy();
+						exp2_act(1,en5[i].x-5,en5[i].y-20);
+						player.health -= 20;
+						if(player.health < 0){
+							exp2_act(1,player.x,player.y);
+						}
+					}
+					
+					if(en5[i].y > 500){
+						en5[i].destroy();
+					}
+				}
+			}	
+		}
+		
+		//=================================== Function b_health_act
+		function b_health_act(){
+			
+			var rx;
+			
+			if(b_health.is_exist == 0 && Math.random() > 0.998 && score > 2500){
+				rx = Math.random()*530+15;
+				b_health.create(rx,-50);
+				b_health.speed_y = 2;
+			}
+			if(b_health.is_exist){
+				
+				b_health.step();
+					
+				if(col_check(player,b_health,0,0)){
+					b_health.destroy();
+					player.health += 30;
+					if(player.health > 107)player.health = 107;
+				}
+					
+				if(b_health.y > 500){
+					b_health.destroy();
+				}
+			}
+		}
+		
+		//=================================== Function b_f2_act
+		function b_f2_act(){
+			
+			var rx;
+			
+			if(b_f2.is_exist == 0 && Math.random() > 0.99 && score > 4000 && fire_mod == 1){
+				rx = Math.random()*530+15;
+				b_f2.create(rx,-50);
+				b_f2.speed_y = 2;
+			}
+			if(b_f2.is_exist){
+				
+				b_f2.step();
+					
+				if(col_check(player,b_f2,0,0)){
+					b_f2.destroy();
+					fire_mod = 2;
+				}
+					
+				if(b_f2.y > 500){
+					b_f2.destroy();
+				}
+			}
+		}
+		
+		//=================================== Function b_f3_act
+		function b_f3_act(){
+			
+			var rx;
+			
+			if(b_f3.is_exist == 0 && Math.random() > 0.99 && score > 15000 && fire_mod == 2){
+				rx = Math.random()*530+15;
+				b_f3.create(rx,-50);
+				b_f3.speed_y = 2;
+			}
+			if(b_f3.is_exist){
+				
+				b_f3.step();
+					
+				if(col_check(player,b_f3,0,0)){
+					b_f3.destroy();
+					fire_mod = 3;
+				}
+					
+				if(b_f3.y > 500){
+					b_f3.destroy();
+				}
+			}
+		}
+		
+		//=================================== Function fire1_act
+		function fire1_act(gen){
+			
+			var i;
+			var j;
+			
+			if(gen == 1){
+			
+				if(fire_mod == 1){
+					var free_f = 0;
+				
+					for(i = 1;i <= MAX_F1;i++){
+						if(fire1[i].is_exist == 0){
+							free_f = i;
+							break;
+						}
+					}
+			
+					if(free_f > 0){
+						fire1[free_f].create(player.x+21,player.y-8);
+						fire1[free_f].speed_y = -20;
+					}
+				}
+				
+				if(fire_mod == 2){
+				
+					var free_f1 = 0;
+					var free_f2 = 0;
+					
+					for(i = 1;i <= MAX_F1;i++){
+						if(fire1[i].is_exist == 0){
+							free_f1 = i;
+							break;
+						}
+					}
+					
+					for(i = 1;i <= MAX_F1;i++){
+						if(fire1[i].is_exist == 0 && i != free_f1){
+							free_f2 = i;
+							break;
+						}
+					}
+					
+					if(free_f1 > 0 && free_f2 > 0){
+						fire1[free_f1].create(player.x+17,player.y-8);
+						fire1[free_f2].create(player.x+25,player.y-8);
+						fire1[free_f1].speed_y = -20;
+						fire1[free_f2].speed_y = -20;
+					}
+				}
+				
+				if(fire_mod == 3){
+				
+					var free_f1 = 0;
+					var free_f2 = 0;
+					var free_f3 = 0;
+					
+					for(i = 1;i <= MAX_F1;i++){
+						if(fire1[i].is_exist == 0){
+							free_f1 = i;
+							break;
+						}
+					}
+					
+					for(i = 1;i <= MAX_F1;i++){
+						if(fire1[i].is_exist == 0 && i != free_f1){
+							free_f2 = i;
+							break;
+						}
+					}
+					
+					for(i = 1;i <= MAX_F1;i++){
+						if(fire1[i].is_exist == 0 && i != free_f1 && i != free_f2){
+							free_f3 = i;
+							break;
+						}
+					}
+					
+					if(free_f1 > 0 && free_f2 > 0 && free_f3 > 0){
+						fire1[free_f1].create(player.x+15,player.y-8);
+						fire1[free_f2].create(player.x+21,player.y-12);
+						fire1[free_f3].create(player.x+27,player.y-8);
+						
+						fire1[free_f1].speed_x = -1;
+						fire1[free_f2].speed_x = 0;
+						fire1[free_f3].speed_x = 1;
+						
+						fire1[free_f1].speed_y = -20;
+						fire1[free_f2].speed_y = -20;
+						fire1[free_f3].speed_y = -20;
+					}
+				}
+				
+			}
+			else{
+				for(i = 1;i <= MAX_F1;i++){
+					if(fire1[i].is_exist){
+						fire1[i].step();
+					
+						for(j = 1;j <= MAX_E1;j++){
+							if(col_check(en1[j],fire1[i],0,0)){
+								mini_exp_act(1,fire1[i].x,fire1[i].y);
+								fire1[i].destroy();
+								en1[j].health -= 1;
+								score += 1;
+								if(en1[j].health < 0){
+									score += 50;
+									exp1_act(1,en1[j].x-5,en1[j].y-15);
+								}
+							}
+						}
+					
+						for(j = 1;j <= MAX_E2;j++){
+							if(col_check(en2[j],fire1[i],0,0)){
+								mini_exp_act(1,fire1[i].x,fire1[i].y);
+								fire1[i].destroy();
+								en2[j].health -= 1;
+								score += 2;
+								if(en2[j].health < 0){
+									score += 100;
+									exp1_act(1,en2[j].x,en2[j].y-20);	
+								}
+							}
+						}
+					
+						for(j = 1;j <= MAX_E3;j++){
+							if(col_check(en3[j],fire1[i],0,0)){
+								mini_exp_act(1,fire1[i].x,fire1[i].y);
+								fire1[i].destroy();
+								en3[j].health -= 1;
+								score += 5;
+								if(en3[j].health < 0){
+									score += 200;
+									exp1_act(1,en3[j].x,en3[j].y-15);	
+								}
+							}
+						}
+					
+						for(j = 1;j <= MAX_E4;j++){
+							if(col_check(en4[j],fire1[i],0,0)){
+								mini_exp_act(1,fire1[i].x,fire1[i].y);
+								fire1[i].destroy();
+								en4[j].health -= 1;
+								score += 10;
+								if(en4[j].health < 0){
+									score += 500;
+									exp2_act(1,en4[j].x-5,en4[j].y-20);
+								}
+							}
+						}
+					
+						for(j = 1;j <= MAX_E5;j++){
+							if(col_check(en5[j],fire1[i],0,0)){
+								mini_exp_act(1,fire1[i].x,fire1[i].y);
+								fire1[i].destroy();
+								en5[j].health -= 1;
+								score += 20;
+								if(en5[j].health < 0){
+									score += 1000;
+									exp2_act(1,en5[j].x-5,en5[j].y-20);
+								}
+							}
+						}
+					
+						if(fire1[i].y < -10){
+							fire1[i].destroy();
+						}
+					}
+				}
+			}
+		}
+		
+		//=================================== Function fire2_act
+		function fire2_act(gen,x,y){
+			
+			var i;
+			
+			if(gen == 1){
+			
+				var free_f = 0;
+				
+				for(i = 1;i <= MAX_F2;i++){
+					if(fire2[i].is_exist == 0){
+						free_f = i;
+						break;
+					}
+				}
+				
+				if(free_f > 0){
+					fire2[free_f].create(x,y);
+					fire2[free_f].speed_y = 10;
+				}
+			}
+			else{
+				for(i = 1;i <= MAX_F2;i++){
+					if(fire2[i].is_exist){
+						fire2[i].step();
+						
+						if(col_check(player,fire2[i],0,0)){
+							mini_exp_act(1,fire2[i].x,fire2[i].y);
+							fire2[i].destroy();
+							player.health -= 1;
+							if(player.health < 0){
+								exp2_act(1,player.x,player.y);
+							}
+						}
+						
+						
+						if(fire2[i].y > 500){
+							fire2[i].destroy();
+						}
+					}
+				}
+			}
+		}
+		
+		//=================================== Function fire3_act
+		function fire3_act(gen,x,y){
+			
+			var i;
+			
+			if(gen == 1){
+			
+				var free_f1 = 0;
+				var free_f2 = 0;
+				
+				for(i = 1;i <= MAX_F3;i++){
+					if(fire3[i].is_exist == 0){
+						free_f1 = i;
+						break;
+					}
+				}
+				
+				for(i = 1;i <= MAX_F3;i++){
+					if(fire3[i].is_exist == 0 && i != free_f1){
+						free_f2 = i;
+						break;
+					}
+				}
+				
+				if(free_f1 > 0 && free_f2 > 0){
+					
+					var k = Math.sqrt(Math.pow(player.x-x,2)+Math.pow(player.y-y,2));
+					k /= 10;
+					fire3[free_f1].create(x,y);
+					fire3[free_f2].create(x + 15,y);
+					
+					if(player.x + player.width/2 > x+7){
+						fire3[free_f1].speed_x = (player.x - fire3[free_f2].x)/k;
+						fire3[free_f1].speed_y = (player.y + player.height/2 - fire3[free_f1].y)/k;
+						fire3[free_f2].speed_x = (player.x + player.width/2 - fire3[free_f2].x)/k;
+						fire3[free_f2].speed_y = (player.y + player.height/2 - fire3[free_f2].y)/k;
+					}
+					else{
+						fire3[free_f1].speed_x = (player.x + player.width/2 - fire3[free_f2].x)/k;
+						fire3[free_f1].speed_y = (player.y + player.height/2 - fire3[free_f2].y)/k;
+						fire3[free_f2].speed_x = (player.x + player.width - fire3[free_f2].x)/k;
+						fire3[free_f2].speed_y = (player.y + player.height/2 - fire3[free_f1].y)/k;
+					}
+					
+				}
+			}
+			else{
+				for(i = 1;i <= MAX_F3;i++){
+					if(fire3[i].is_exist){
+						fire3[i].step();
+						
+						if(col_check(player,fire3[i],0,0)){
+							mini_exp_act(1,fire3[i].x,fire3[i].y);
+							fire3[i].destroy();
+							player.health -= 2;
+							if(player.health < 0){
+								exp2_act(1,player.x,player.y);
+							}
+						}
+						
+						if(fire3[i].y > 500 || fire3[i].x < -10 || fire3[i].x > 600){
+							fire3[i].destroy();
+						}
+					}
+				}	
+			}
+		}
+		
+		//=================================== Function fire4_act
+		function fire4_act(gen,x,y){
+			
+			var i;
+			
+			if(gen == 1){
+			
+				var free_f1 = 0;
+				var free_f2 = 0;
+				var free_f3 = 0;
+				
+				for(i = 1;i <= MAX_F4;i++){
+					if(fire4[i].is_exist == 0){
+						free_f1 = i;
+						break;
+					}
+				}
+				
+				for(i = 1;i <= MAX_F4;i++){
+					if(fire4[i].is_exist == 0 && i != free_f1){
+						free_f2 = i;
+						break;
+					}
+				}
+				
+				for(i = 1;i <= MAX_F4;i++){
+					if(fire4[i].is_exist == 0 && i != free_f1 && i != free_f2){
+						free_f3 = i;
+						break;
+					}
+				}
+				
+				if(free_f1 > 0 && free_f2 > 0 && free_f3 > 0){
+					
+					fire4[free_f1].create(x,y);
+					fire4[free_f2].create(x + 8,y);
+					fire4[free_f3].create(x + 16,y);
+					
+					fire4[free_f1].speed_x = -5;
+					fire4[free_f1].speed_y = 8;
+					fire4[free_f2].speed_x = 0;
+					fire4[free_f2].speed_y = 9;
+					fire4[free_f3].speed_x = 5;
+					fire4[free_f3].speed_y = 8;
+					
+				}
+			}
+			else{
+				for(i = 1;i <= MAX_F4;i++){
+					if(fire4[i].is_exist){
+						fire4[i].step();
+						
+						if(col_check(player,fire4[i],0,0)){
+							mini_exp_act(1,fire4[i].x,fire4[i].y);
+							fire4[i].destroy();
+							player.health -= 4;
+							if(player.health < 0){
+								exp2_act(1,player.x,player.y);
+							}
+						}
+						
+						if(fire4[i].y > 500 || fire4[i].x < -10 || fire4[i].x > 600){
+							fire4[i].destroy();
+						}
+					}
+				}
+			}
+		}
+		
+		//=================================== Function player_act
+		function player_act(){
+			
+			player.speed_x = (m_x - player.x - PAGE_OSX - player.width/2)/10;
+			player.speed_y = (m_y - player.y - PAGE_OSY - player.height/2)/10;
+			player.step();
+			
+			bar2.move(player.health + 363,-25);
+			if(bar2.x < 362)bar2.move(362,-25);
+			
+			t_score.set_text("Score : " + score);
+			
+			if(player.x < 15){
+				player.move(15,player.y);
+			}
+			if(player.x > 534){
+				player.move(534,player.y);
+			}
+			if(player.y < 15){
+				player.move(player.x,15);
+			}
+			if(player.y > 442){
+				player.move(player.x,442);
+			}
+			
+			if(player.is_exist == 0){
+			
+				var t_x;
+			
+				t_gameover.set_vis(1);
+				t_gameover.move(180,100);
+				
+				t_finalscore.set_vis(1);
+				t_x = 240 - Math.log(score + 1)*2;
+				t_finalscore.move(t_x,170);
+				t_finalscore.set_text("Your Score : " + score);
+				
+				t_playagain.set_vis(1);
+				t_playagain.move(200,250);
+			
+			}
+			
+		}
+		
+		//=================================== Function mini_exp_act
+		function mini_exp_act(gen,x,y){
+		
+			var i;
+			
+			if(gen == 1){
+			
+				var free_exp = 0;
+				
+				for(i = 1;i <= MAX_MINIEXP;i++){
+					if(mini_exp[i].is_exist == 0){
+						free_exp = i;
+						break;
+					}
+				}
+				
+				if(free_exp > 0){
+					mini_exp[free_exp].create(x,y);
+				}
+			}
+			else{
+				for(i = 1;i <= MAX_MINIEXP;i++){
+					if(mini_exp[i].is_exist){
+						var current_image = mini_exp[i].img_no;
+						if(current_image == mini_exp[i].img_c)mini_exp[i].destroy();
+						else{
+							mini_exp[i].set_vis(current_image + 1);
+							mini_exp[i].step();
+						}
+					}
+				}
+			}
+		
+		}
+		
+		//=================================== Function exp1_act
+		function exp1_act(gen,x,y){
+		
+			var i;
+			
+			if(gen == 1){
+			
+				var free_exp = 0;
+				
+				for(i = 1;i <= MAX_EXP1;i++){
+					if(exp1[i].is_exist == 0){
+						free_exp = i;
+						break;
+					}
+				}
+				
+				if(free_exp > 0){
+					exp1[free_exp].create(x,y);
+				}
+			}
+			else{
+				for(i = 1;i <= MAX_EXP1;i++){
+					if(exp1[i].is_exist){
+						var current_image = exp1[i].img_no;
+						if(current_image == exp1[i].img_c)exp1[i].destroy();
+						else{
+							exp1[i].set_vis(current_image + 1);
+							exp1[i].step();
+						}
+					}
+				}
+			}
+		
+		}
+		
+		//=================================== Function exp2_act
+		function exp2_act(gen,x,y){
+		
+			var i;
+			
+			if(gen == 1){
+			
+				var free_exp = 0;
+				
+				for(i = 1;i <= MAX_EXP2;i++){
+					if(exp2[i].is_exist == 0){
+						free_exp = i;
+						break;
+					}
+				}
+				
+				if(free_exp > 0){
+					exp2[free_exp].create(x,y);
+				}
+			}
+			else{
+				for(i = 1;i <= MAX_EXP2;i++){
+					if(exp2[i].is_exist){
+						var current_image = exp2[i].img_no;
+						if(current_image == exp2[i].img_c)exp2[i].destroy();
+						else{
+							exp2[i].set_vis(current_image + 1);
+							exp2[i].step();
+						}
+					}
+				}
+			}
+		
+		}
+		
+		//=================================== Function backg
+		function backg(){
+			
+			var i;
+			var rx;
+			var ry;
+			
+			for(i = 1;i <= MAX_S1;i++){
+				rx = Math.floor(Math.random()*560)+10;
+				ry = Math.floor(Math.random()*460)+10;
+				star1[i].set_vis(1);
+				star1[i].move(rx,ry);
+			}
+			
+			for(i = 1;i <= MAX_S2;i++){
+				rx = Math.floor(Math.random()*550)+15;
+				ry = Math.floor(Math.random()*450)+15;
+				star2[i].set_vis(1);
+				star2[i].move(rx,ry);
+			}
+			
+			for(i = 1;i <= MAX_S3;i++){
+				rx = Math.floor(Math.random()*550)+15;
+				ry = Math.floor(Math.random()*450)+15;
+				star3[i].set_vis(1);
+				star3[i].move(rx,ry);
+			}
+			
+		}
+		
+		</script>
+        
+        <img id = "fore" class = "fg" src = "pics\fore.png" onmousemove="upd_m(event)" ondragstart="return false;" ondrag="return false;" onmousedown="mouse_d(event)">
+        
+	</body>
+   
+</html>
